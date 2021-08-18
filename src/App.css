@@ -1,38 +1,381 @@
-.App {
-  text-align: center;
+* {
+  padding: 0;
+  margin: 0;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-size: 1.2rem;
+  --sky-bottom: rgb(211, 243, 255);
+  --sky-top: rgba(95, 196, 255, 0.644);
+  --grass-bottom: rgba(102, 255, 0, 0.199);
+  --grass-top: rgba(136, 206, 122, 0.9);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.hover-effect:hover{
+  transform: translateY(-5px);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.flex-column {
   display: flex;
   flex-direction: column;
+}
+
+html,
+body {
+  max-width: 100%;
+  height: 100%;
+}
+
+body {
+  background: linear-gradient(var(--grass-top), var(--grass-bottom));
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.App {
+  text-align: center;
+  min-height: 100%;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+nav {
+  position: fixed;
+  top: 2%;
+  left: 2%;
+  z-index: 99;
+
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+
+  width: 96vw;
+  border-radius: 2em;
+
+  background-color: rgba(255, 255, 255, 0.589);
+  color: rgba(0, 0, 0, 0.8);
+}
+
+ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin: 1em 1em;
+}
+
+li,
+NavLink,
+a {
+  white-space: wrap;
+  text-decoration: none;
+  list-style-type: none;
+  margin: 0 0.5em;
+}
+
+h1 {
+  font-size: 2rem;
+  margin: 0.5em;
+}
+
+.sky {
+  position: relative;
+  background: linear-gradient(var(--sky-top), var(--sky-bottom));
+  min-height: 15em;
+  width: 100%;
+}
+
+.sky::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  left: -0%;
+  top: 100%;
+  display: block;
+  height: 50px;
+  background-size: 50px 100%;
+  background-image: linear-gradient(
+      135deg,
+      var(--sky-bottom) 25%,
+      transparent 25%
+    ),
+    linear-gradient(225deg, var(--sky-bottom) 25%, transparent 25%);
+  background-position: 0 0;
+}
+
+form {
+  max-width: 50%;
+  padding: 1em 1em;
+  border-radius: 1em;
+
+  background: rgba(255, 255, 255, 0.836);
+}
+
+input {
+  border-radius: 1em;
+  height: 2em;
+  padding: 0.2em 1em;
+  border: none;
+  border-bottom: 2px dotted black;
+  margin: 0.7em 0;
+}
+
+.Home {
+  position: absolute;
+  top: 20%;
+
+  min-height: 50%;
+  width: 100%;
+}
+
+form > button {
+  position: relative;
+  padding: 0.5em;
+
+  border: 0em;
+  border-radius: 2em;
+  transition: 0.25s;
+  z-index: 1;
+  background: rgba(255, 255, 255, 1);
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+form > button:active {
+  transform: translateY(5px);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+form > button::after {
+  position: absolute;
+  top: -1%;
+  left: -1%;
+  pointer-events: none;
+  content: "";
+
+  width: 102%;
+  height: 102%;
+  border-radius: 2em;
+  background: linear-gradient(rgb(255, 238, 0), rgba(255, 100, 100, 1));
+  z-index: -2;
+}
+
+form > button::before {
+  position: absolute;
+  top: 8%;
+  left: 1%;
+  right: 1%;
+  bottom: 8%;
+  pointer-events: none;
+  content: "";
+
+  border-radius: 2em;
+  background: rgb(0, 0, 0);
+  z-index: -1;
+}
+
+.Pokemon {
+  flex-direction: column;
+}
+
+.Grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(12em, 1fr));
+  grid-gap: 25px;
+
+  position: relative;
+  top: 0;
+  justify-content: center;
+
+  min-height: 50%;
+  width: 70%;
+}
+
+.Card {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 1em;
+
+  padding: 0.5em;
+  min-height: 15em;
+  transition: 0.25s;
+}
+
+.Card:hover {
+  box-shadow: 0.2em 0.2em rgba(0, 175, 255, 0.7);
+}
+
+.Card:active {
+  transform: translateY(15px);
+}
+
+.buttons {
+  position: absolute;
+  top: 7em;
+  max-width: 80%;
+}
+
+.buttons > button {
+  min-width: 2em;
+  min-height: 2em;
+
+  border-radius: 0.5em;
+  border: none;
+
+  margin: 0.2em;
+  transition: 0.25s;
+}
+
+.buttons > button:hover {
+  border: 0.1em solid black;
+}
+
+.buttons > button:active {
+  transform: translateY(4px);
+}
+
+.types {
+  display: flex;
+}
+
+.type {
+  border-radius: 1em;
+  margin: 0.5em 0.1em;
+  padding: 0.2em 0.5em;
+
+  color: black;
+  text-shadow: 0em 0em 0.5em white;
+  font-size: 1rem;
+}
+
+.stats {
+  width: 100%;
+}
+
+.stats > div {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 1rem;
+  font-weight: bold;
+
+  padding: 0.3em;
+  margin: 0.2em 0;
+
+  border-radius: 1em;
+  background: rgba(0, 175, 255, 0.4);
+}
+
+.not-found {
+  position: absolute;
+  width: 100%;
+}
+
+.PokemonCard {
+  position: absolute;
+  min-height: 50%;
+  top: 20%;
+  left: 10%;
+  right: 10%;
+  padding: 2em 5%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 2em;
+  overflow: hidden;
+  box-shadow: 0.5em 0.5em 0.25em black;
+}
+
+.inner > img {
+  min-width: 10em;
+  max-width: 90%;
+  max-height: 20em;
+  top: 0;
+  bottom: 0;
+}
+
+.PokemonCard > h2 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  font-size: 10em;
+  opacity: 50%;
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+}
+
+.type-list {
+  width: 100%;
+}
+
+.type-list > .type {
+  position: relative;
+  font-size: 2rem;
+  border: 0.05em dotted black;
+  z-index: 9;
+  transition: 0.25s;
+}
+
+.stat-card {
+  position: relative;
+  flex-direction: row;
+  flex-wrap: wrap;
+  max-width: 90%;
+  margin: 0.25em;
+  min-height: 2em;
+}
+
+.stat-card > div {
+  margin: 0.4em;
+  box-shadow: 0.2em 0.2em 0.25em black;
+}
+
+.types-card {
+  position: relative;
+  border: 1px solid black;
+  color: black;
+  border-radius: 2em;
+  background: rgba(255, 255, 255, 0.5);
+  max-width: 20em;
+  min-height: 10em;
+}
+
+.characteristics {
+  padding: 1em;
+}
+
+.name {
+  padding: 0.5em;
+  font-size: 2em;
+}
+
+.others {
+  z-index: 99;
+  color: black;
+}
+
+.moves {
+  max-height: 10em;
+  min-width: 10em;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  border-radius: 0.5em;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.moves > div {
+  width: 100%;
+  display: flex;
+  padding: 0.5em;
+}
+.moves > div:hover {
+  background: white;
+}
+
+.SearchBar{
+  position: absolute;
+  top: 11em;
 }

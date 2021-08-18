@@ -1,25 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
+import NavBar from "./components/NavBar";
+import Home from "./components/Home";
+import Pokemon from "./components/Pokemon";
+import PokemonCard from "./components/PokemonCard";
+import ProtectedRoute from "./components/ProtectedRoute";
+import NotFound from "./components/NotFound";
+import { useContextInfo, ContextProvider } from "./context/Context";
+
+export default () => (
+  <ContextProvider>
+    <App />
+  </ContextProvider>
+);
 
 function App() {
+  const {isAuth} = useContextInfo();
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="sky"></div>
+      <Router>
+        <NavBar />
+        <Switch>
+          <Route path="/Home">
+            <Home/>
+          </Route>
+          <ProtectedRoute isAuth={isAuth} path="/Pokemon/:pokeID" component={PokemonCard} />
+          <ProtectedRoute isAuth={isAuth} exact path="/Pokemon" component={Pokemon} />
+          <Route exact path="/">
+            <Redirect to="/Home" />
+          </Route>
+          <Route path="*">
+            <NotFound />
+          </Route>
+        </Switch>
+      </Router>
     </div>
   );
 }
-
-export default App;
