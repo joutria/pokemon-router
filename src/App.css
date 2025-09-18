@@ -571,7 +571,7 @@ form>button::before {
 .stat-bar {
   height: 1em;
   border-radius: 0.5em;
-  background: linear-gradient(90deg, #e0e0e0 0%, #b0b0b0 100%);
+  background: linear-gradient(90deg, #444 0%, #222 100%);
   transition: width 0.15s;
   box-shadow: 0.05em 0.05em 0.1em rgba(0, 0, 0, 0.10);
   min-width: 0;
