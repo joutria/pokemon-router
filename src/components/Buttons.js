@@ -3,6 +3,28 @@ import { useState, useEffect } from "react";
 function Buttons(props) {
   // number of buttons for the pages
   const [buttons, setButtons] = useState([]);
+  const [rowOptions, setRowOptions] = useState([props.elements]);
+
+  // Dynamically calculate N (cards per row) and set options
+  useEffect(() => {
+    function updateOptions() {
+      const grid = document.querySelector(".Grid");
+      let gridWidth = grid ? grid.offsetWidth : window.innerWidth * 0.7;
+      const cardWidth = 180;
+      const N = Math.max(1, Math.floor(gridWidth / cardWidth));
+      const options = [N, 2 * N, 3 * N, 4 * N, 5 * N].filter(
+        (v, i, arr) => arr.indexOf(v) === i,
+      );
+      setRowOptions(options);
+      // If current elements is not in new options, update it
+      if (!options.includes(props.elements)) {
+        props.setElements(options[0]);
+      }
+    }
+    updateOptions();
+    window.addEventListener("resize", updateOptions);
+    return () => window.removeEventListener("resize", updateOptions);
+  }, [props.elements, props.setElements]);
 
   // effect to assign the number of pages per location
   useEffect(() => {
@@ -50,13 +72,14 @@ function Buttons(props) {
         <select
           value={props.elements}
           onChange={(e) => {
-            props.setElements(e.target.value);
+            props.setElements(Number(e.target.value));
           }}
         >
-          <option>4</option>
-          <option>8</option>
-          <option>12</option>
-          <option>16</option>
+          {rowOptions.map((num) => (
+            <option key={num} value={num}>
+              {num}
+            </option>
+          ))}
         </select>
       )}
     </>

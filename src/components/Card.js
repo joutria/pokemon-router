@@ -1,7 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { useHistory } from "react-router-dom";
 import { useContextInfo } from "../context/Context";
 
+function capitalize(str) {
+  if (!str) return "";
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 
 function Card(props) {
   const [details, setDetails] = useState([]);
@@ -39,39 +44,82 @@ function Card(props) {
     history.push(`/Pokemon/${i}`);
   }
 
+  const [hovered, setHovered] = useState(false);
+  const [coords, setCoords] = useState({ top: 0, left: 0 });
+  const cardRef = useRef(null);
+
+  // On mouse enter, get bounding rect for portal positioning
+  const handleMouseEnter = (e) => {
+    setHovered(true);
+    if (cardRef.current) {
+      const rect = cardRef.current.getBoundingClientRect();
+      setCoords({
+        top: rect.top + window.scrollY + 10,
+        left: rect.right + window.scrollX + 10,
+      });
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setHovered(false);
+  };
+
+  // Portal target
+  let portalRoot = document.getElementById("overlay-root");
+  if (!portalRoot) {
+    portalRoot = document.createElement("div");
+    portalRoot.id = "overlay-root";
+    document.body.appendChild(portalRoot);
+  }
+
   return (
     <div
-      className="Card flex-center flex-column hover-effect"
+      className="Card flex-center flex-column hover-effect card-hover-group"
+      ref={cardRef}
       onClick={() => {
         onClickHandler(details.id);
       }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
-      {img && <img src={img} alt={props.pokemon.name} />}
-      <div>{props.pokemon.name}</div>
+      {img && <img src={img} alt={capitalize(props.pokemon.name)} />}
+      <div>{capitalize(props.pokemon.name)}</div>
       <div className="types">
         {img &&
           details.types.map((x, i) => {
             return (
-              <div
-                className="type"
-                style={{ background: `${types[x.type.name]}` }}
-                key={i}
-              >
-                {x.type.name}
+              <div className={`type ${x.type.name}`} key={i}>
+                {capitalize(x.type.name)}
               </div>
             );
           })}
       </div>
-      {img && (
-        <div className="stats">
-          <div>Hp: {details.stats[0].base_stat}</div>
-          <div>Atk: {details.stats[1].base_stat}</div>
-          <div>Def: {details.stats[2].base_stat}</div>
-          <div>Sp. Atk: {details.stats[3].base_stat}</div>
-          <div>Sp. Def: {details.stats[4].base_stat}</div>
-          <div>Spd: {details.stats[5].base_stat}</div>
-        </div>
-      )}
+      {img &&
+        hovered &&
+        createPortal(
+          <div
+            className="stats-float"
+            style={{
+              display: "flex",
+              position: "absolute",
+              top: coords.top,
+              left: coords.left,
+              zIndex: 99999,
+            }}
+          >
+            <div className="stat-hp">Hp: {details.stats[0].base_stat}</div>
+            <div className="stat-atk">Atk: {details.stats[1].base_stat}</div>
+            <div className="stat-def">Def: {details.stats[2].base_stat}</div>
+            <div className="stat-spatk">
+              Sp. Atk: {details.stats[3].base_stat}
+            </div>
+            <div className="stat-spdef">
+              Sp. Def: {details.stats[4].base_stat}
+            </div>
+            <div className="stat-spd">Spd: {details.stats[5].base_stat}</div>
+          </div>,
+          portalRoot,
+        )}
     </div>
   );
 }

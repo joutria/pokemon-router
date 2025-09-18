@@ -11,7 +11,7 @@ export default function SearchBar(props) {
       matches = info.filter((data) => {
         const formatter = text.replace(
           /[°"§%()\*\[\]{}=\\?´`'#<>|,;.:+_-]+/g,
-          (x) => `\\${x}`
+          (x) => `\\${x}`,
         );
         const regex = new RegExp(`${formatter}`, "gi");
         return data.name.match(regex);
@@ -25,7 +25,7 @@ export default function SearchBar(props) {
   return (
     <div className="SearchBar">
       <input
-      placeholder='Pokemon name here...'
+        placeholder="Pokemon name here..."
         onChange={(e) => {
           sugestionsHandler(e.target.value);
         }}

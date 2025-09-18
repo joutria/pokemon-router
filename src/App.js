@@ -6,6 +6,7 @@ import {
   Redirect,
 } from "react-router-dom";
 import NavBar from "./components/NavBar";
+import ErrorBoundary from "./components/ErrorBoundary";
 import Home from "./components/Home";
 import Pokemon from "./components/Pokemon";
 import PokemonCard from "./components/PokemonCard";
@@ -15,12 +16,14 @@ import { useContextInfo, ContextProvider } from "./context/Context";
 
 export default () => (
   <ContextProvider>
-    <App />
+    <ErrorBoundary>
+      <App />
+    </ErrorBoundary>
   </ContextProvider>
 );
 
 function App() {
-  const {isAuth} = useContextInfo();
+  const { isAuth } = useContextInfo();
 
   return (
     <div className="App">
@@ -29,10 +32,19 @@ function App() {
         <NavBar />
         <Switch>
           <Route path="/Home">
-            <Home/>
+            <Home />
           </Route>
-          <ProtectedRoute isAuth={isAuth} path="/Pokemon/:pokeID" component={PokemonCard} />
-          <ProtectedRoute isAuth={isAuth} exact path="/Pokemon" component={Pokemon} />
+          <ProtectedRoute
+            isAuth={isAuth}
+            path="/Pokemon/:pokeID"
+            component={PokemonCard}
+          />
+          <ProtectedRoute
+            isAuth={isAuth}
+            exact
+            path="/Pokemon"
+            component={Pokemon}
+          />
           <Route exact path="/">
             <Redirect to="/Home" />
           </Route>

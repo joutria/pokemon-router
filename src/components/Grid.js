@@ -23,7 +23,7 @@ function Grid(props) {
         ) {
           return <Card pokemon={obj} key={i} />;
         } else {
-          return '';
+          return "";
         }
       })}
     </div>

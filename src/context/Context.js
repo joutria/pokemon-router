@@ -1,8 +1,6 @@
-import createReactContext from "create-react-context";
-import { useState, useMemo, useContext } from "react";
+import { createContext, useState, useMemo, useContext } from "react";
 
-
-const Context = createReactContext();
+const Context = createContext();
 
 export function ContextProvider(props) {
   //auth toggler
@@ -11,7 +9,7 @@ export function ContextProvider(props) {
   const [user, setUser] = useState("");
   //names and urls from pokemon api
   const [info, setInfo] = useState([]);
-  
+
   //dictionary with type as keys and equivalent colors as values
   const types = {
     normal: "grey",
