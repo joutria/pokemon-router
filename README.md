@@ -1,5 +1,5 @@
 
-# Pokémon Router App
+# Pokemon Router App
 
 A modern React app for browsing Pokémon, featuring:
 - Responsive grid and card UI
