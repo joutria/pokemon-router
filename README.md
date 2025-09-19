@@ -1,7 +1,7 @@
 
 # Pokemon Router App
 
-A modern React app for browsing Pokémon, featuring:
+A modern React app for browsing Pokemon, featuring:
 - Responsive grid and card UI
 - Animated collapsible moves list
 - Persistent trainer login (localStorage)
@@ -42,9 +42,9 @@ A modern React app for browsing Pokémon, featuring:
 ## Features
 
 - **Trainer Login:** Enter your name to access the Pokédex. Name is saved in browser memory.
-- **Pokémon List:** Browse all Pokémon with responsive grid and search.
-- **Pokémon Card:** Click a Pokémon to view details, stats, types, and all moves.
-- **Collapsible Moves:** Expand/collapse the full moves list for each Pokémon.
+- **Pokemon List:** Browse all Pokémon with responsive grid and search.
+- **Pokemon Card:** Click a Pokemon to view details, stats, types, and all moves.
+- **Collapsible Moves:** Expand/collapse the full moves list for each Pokemon.
 - **Loading Skeletons:** See animated placeholders while data loads.
 - **Modern UI:** Clean, responsive design with custom fonts and color coding.
 
